@@ -56,16 +56,16 @@ class MyProxy(ConfigServer):
             config.append('CONNECT')
         else:
             config.append(None)
-        print('HTTPS: ', first[1][0:5])
+    
         if first[1][0:5] == 'https':
             config.append('https')
         elif first[1][0:4] == 'http' and first[1][4] == ':':
             config.append('http')
         else:
             config.append(None)
-        print(config)
+        
         target = self.unpack(config, first[1])
-        print('TARGET: ', target)
+
         if target == False:
             print('[SERVER] Cant send msg ')
             return False
@@ -80,23 +80,14 @@ class MyProxy(ConfigServer):
         
         response = self.recive_msg(rs)
         rs.close()
-        # self.LOG.log(response, target)
-        print('REPONSE FROM: ', target)
-        print(response)
+        self.LOG.log(response, target)
+
         conn.sendall(response)
         conn.close()
 
 
 
-
-
-
-
-
-
-
     def unpack(self, config, head_addr):
-        print('CONFIG: ', config)
         if config[0] == None or config[1] == None:
             print('[SERVER] Unknown method ')
             return False
@@ -134,5 +125,4 @@ class MyProxy(ConfigServer):
 
 
 #########
-PROXY = MyProxy()
-PROXY.start()
+
